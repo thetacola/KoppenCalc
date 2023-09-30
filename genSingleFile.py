@@ -171,7 +171,7 @@ writefile = open("extracted-data.csv", "w")
 for station in stationdata:
     canWrite = True
     for index, value in enumerate(station):
-        if (value == "null"):
+        if (value == "null" or value == "NA"):
             canWrite = False
             break
         elif (value == "Trace"):
