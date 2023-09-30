@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <title>Köppen Calculator</title>
+  </head>
+  <body id="body" style="background-color:white;transition: background-color 0.5s ease;transition: color 0.5s ease;">
+    <header>
+    <div id="topbar">
+		</div>
+		<meta http-equiv="content-type" content="text-html; charset=utf-8">
+		<link rel="stylesheet" href="../css/styles.css">
+		<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		 <script>
+			$(function(){
+				$("#topbar").load("https://oijon.net/new-css-test/nav.html");
+			});
+		</script>
+    <h1>Köppen Calculator v0.0.1</h1></header>
+    <main>
+      
+      <div id="demoMap" style="height:350px; width:100%"></div>
+      <script src="openlayers/OpenLayers.js"></script>
+      <script src="map.js"></script>
+      <h3 id="code"></h3>
+      <p id="stationLocation"></p>
+      
+      <div id="selectors" style="display:flex;">
+          <form>
+              <label for="lat">Latitude:</label>
+              <input type="text" id="lat" name="lat">
+              <label for="long">Longitude:</label>
+              <input type="text" id="long" name="long">
+          </form>
+          <button onclick="calcKoppen()">Calculate!</button>
+      </div>
+    </main>
+    <footer>
+      <p>Known bugs:</p>
+      <ul>
+        <li>There are very few stations with adequate data in North America, Africa, and Italy.</li>
+      </ul>
+      <p>Data sourced from <a href="ftp://ftp.atdd.noaa.gov">ftp.atdd.noaa.gov</a></p>
+    </footer>
+  </body>
+</html>
