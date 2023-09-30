@@ -120,7 +120,8 @@ for (dir_path, dir_names, file_names) in os.walk(gcosDataDir):
                         case "Element 06":
                             tablelines = []
                             tablelinecount = 0
-                            for j, whyDoesThisVarExist in enumerate(alllines):
+                            precipIndex = 1
+                            for j, jValue in enumerate(alllines):
                                 if (j > i and tablelinecount < 3):
                                     striptableline = alllines[j].strip()
                                     if (striptableline.startswith("---")):
@@ -129,36 +130,40 @@ for (dir_path, dir_names, file_names) in os.walk(gcosDataDir):
                                         splitvalues = striptableline.split()
                                         if (len(splitvalues) >= 2):
                                             match (splitvalues[0]):
+                                                case "Statistic:":
+                                                    for k, kValue in enumerate(splitvalues):
+                                                        if (kValue == "MEANMLY"):
+                                                            precipIndex = k                                         
                                                 case "Annual":
                                                     if (splitvalues[1] != "NA"):
-                                                        station[16] = splitvalues[1]
+                                                        station[16] = splitvalues[precipIndex]
                                                 case "Ann-NCDC":
                                                     if (splitvalues[1] != "NA"):
-                                                        station[16] = splitvalues[1]
+                                                        station[16] = splitvalues[precipIndex]
                                                 case "Jan":
-                                                    station[17] = splitvalues[1]
+                                                    station[17] = splitvalues[precipIndex]
                                                 case "Feb":
-                                                    station[18] = splitvalues[1]
+                                                    station[18] = splitvalues[precipIndex]
                                                 case "Mar":
-                                                    station[19] = splitvalues[1]
+                                                    station[19] = splitvalues[precipIndex]
                                                 case "Apr":
-                                                    station[20] = splitvalues[1]
+                                                    station[20] = splitvalues[precipIndex]
                                                 case "May":
-                                                    station[21] = splitvalues[1]
+                                                    station[21] = splitvalues[precipIndex]
                                                 case "Jun":
-                                                    station[22] = splitvalues[1]
+                                                    station[22] = splitvalues[precipIndex]
                                                 case "Jul":
-                                                    station[23] = splitvalues[1]
+                                                    station[23] = splitvalues[precipIndex]
                                                 case "Aug":
-                                                    station[24] = splitvalues[1]
+                                                    station[24] = splitvalues[precipIndex]
                                                 case "Sep":
-                                                    station[25] = splitvalues[1]
+                                                    station[25] = splitvalues[precipIndex]
                                                 case "Oct":
-                                                    station[26] = splitvalues[1]
+                                                    station[26] = splitvalues[precipIndex]
                                                 case "Nov":
-                                                    station[27] = splitvalues[1]
+                                                    station[27] = splitvalues[precipIndex]
                                                 case "Dec":
-                                                    station[28] = splitvalues[1]
+                                                    station[28] = splitvalues[precipIndex]
                                 elif (tablelinecount >= 3):
                                     break
             stationdata.append(station)
@@ -168,7 +173,6 @@ for station in stationdata:
     for index, value in enumerate(station):
         if (value == "null"):
             canWrite = False
-            print(f"Station {station[0]} is null on index {index}!")
             break
         elif (value == "Trace"):
             station[index] = "0"
