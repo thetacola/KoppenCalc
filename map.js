@@ -29,6 +29,7 @@ map.zoomToMaxExtent();
 
 map.events.register("move", map, function() {
 	updateLonLat();
+	calcKoppen();
 });
 
 function calcKoppen() {
