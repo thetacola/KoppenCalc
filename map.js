@@ -5,7 +5,7 @@ map.addLayer(markers);
 var filedata = "";
 var allTextLines;
 var request = new XMLHttpRequest();
-request.open('GET', 'http://' + window.location.hostname + '/extracted-data.csv')
+request.open('GET', 'http://koppencalc.oijon.net/extracted-data.csv')
 request.send(null)
 request.onreadystatechange = function () {
     if (request.readyState === 4 && request.status === 200) {
