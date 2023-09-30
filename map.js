@@ -70,338 +70,339 @@ function calcKoppen() {
 	mmOfPrecipitation.push(splitData[17], splitData[18], splitData[19], splitData[20], splitData[21], splitData[22], splitData[23], splitData[24], splitData[25], 
 			   splitData[26], splitData[27], splitData[28]);
 	
-	console.log("-----");
+	var distKM = distance * 111.1;
 	
-	// Group A: Tropical Climates
-	
-	var hot = true;
-	var canBeTropical = true;
-	for (let i = 0; i < temps.length; i++) {
-		if (parseFloat(temps[i]) < 18) {
-			hot = false;
-			canBeTropical = false;
-		}
-	}
-	
-	var canBeAf = true;
-	var tropicalPrecipitationMin = parseFloat(100 - (totalPrecip / 25));
-	if (hot) {
-		console.log("Hot enough to be tropical.");
-		for (let i = 0; i < mmOfPrecipitation.length; i++) {
-			if (parseFloat(mmOfPrecipitation[i]) < 60) {
-				canBeAf = false;
-				console.log("Too dry for Af, not neccessarially for A.");
-				break;
-			}
-			if (parseFloat(mmOfPrecipitation[i]) < tropicalPrecipitationMin) {
+	if (parseFloat(distKM) < 500) {
+		console.log("-----");
+		
+		// Group A: Tropical Climates
+		var hot = true;
+		var canBeTropical = true;
+		for (let i = 0; i < temps.length; i++) {
+			if (parseFloat(temps[i]) < 18) {
+				hot = false;
 				canBeTropical = false;
-				console.log("Cannot be tropical, too dry.");
-				break;
-			}
-		}
-	} else {
-		console.log("Cannot be tropical, too cold.");
-	}
-	
-	// Definetely tropical at this point, check if Af, Am, As, or Aw
-	if (canBeTropical) {
-		console.log("Wet enough to be tropical. Köppen climate is in group A...");
-		var driestMonth = -1;
-		var driestPrecipAmount = 999999;
-		for (let i = 0; i < mmOfPrecipitation.length; i++) {
-			if (parseFloat(mmOfPrecipitation[i]) < driestPrecipAmount) {
-				driestMonth = i;
-				driestPrecipAmount = parseFloat(mmOfPrecipitation[i]);
 			}
 		}
 		
-		if (canBeAf) {
-			koppenCode = "Af";
-			console.log("If it can be Af, it must be Af.");
-		} else if (parseFloat(document.getElementById('lat').value) < 0) {   // determines if north or south of the equator
-			// south of equator
-			console.log("South of equator.");
-			if (driestMonth == 5) {
-				// not the best way to determine monsoon climates, but the dries month is right after the winter solstice...
-				console.log("Driest month is one with winter solstice. (" + driestMonth + ") Is Am.");
-				koppenCode = "Am";
-			}
-			else if (4 < driestMonth & driestMonth <= 9) {
-				// including a bit of spring and fall here just in case
-				console.log("Driest month is one in winter. (" + (driestMonth + 1) + ") Is Aw.");
-				koppenCode = "Aw";
-			} else {
-				console.log("Driest month is one in summer. (" + (driestMonth + 1) + ") Is As.");
-				koppenCode = "As";
-			}
-		} else {
-			// north of equator
-			console.log("North of equator.");
-			if (driestMonth == 11) {
-				// not the best way to determine monsoon climates, but the dries month is right after the winter solstice...
-				console.log("Driest month is one with winter solstice. (" + (driestMonth + 1) + ") Is Am.");
-				koppenCode = "Am";
-			}
-			else if (4 < driestMonth & driestMonth <= 9) {
-				// including a bit of spring and fall here just in case
-				console.log("Driest month is one in summer. (" + (driestMonth + 1) + ") Is As.");
-				koppenCode = "As";
-			} else {
-				console.log("Driest month is one in winter. (" + (driestMonth + 1) + ") Is Aw.");
-				koppenCode = "Aw";
-			}
-		}
-	}
-	
-	// Group B: arid climates
-	
-	littlePrecipThreshold = parseFloat(avgtemp) * 20; // defined here, also used for group E
-	// equator specific threshold
-	if (parseFloat(document.getElementById('lat').value) < 0) {
-		springSummerPrecip = parseFloat(mmOfPrecipitation[9] + mmOfPrecipitation[10] + mmOfPrecipitation[11] + mmOfPrecipitation[0] + mmOfPrecipitation[1] + mmOfPrecipitation[2]);
-		var percentSpringSummerPrecip = (springSummerPrecip / totalPrecip) * 100;
-		if (percentSpringSummerPrecip >= 70) {
-			littlePrecipThreshold += 280;
-		} else if (percentSpringSummerPrecip >= 30) {
-			littlePrecipThreshold += 140;
-		}
-	} else {
-		springSummerPrecip = parseFloat(mmOfPrecipitation[3] + mmOfPrecipitation[4] + mmOfPrecipitation[5] + mmOfPrecipitation[6] + mmOfPrecipitation[7] + mmOfPrecipitation[8]);
-		var percentSpringSummerPrecip = (springSummerPrecip / totalPrecip) * 100;
-		if (percentSpringSummerPrecip >= 70) {
-			littlePrecipThreshold += 280;
-		} else if (percentSpringSummerPrecip >= 30) {
-			littlePrecipThreshold += 140;
-		}
-	}
-	
-	hotEnoughForB = false;
-	for (let i = 0; i < temps.length; i++) {
-		if (parseFloat(temps[i]) > 10) {
-			hotEnoughForB = true;
-		}
-	}
-	
-	if (parseFloat(totalPrecip) <= parseFloat(littlePrecipThreshold)) {
-		console.log("Dry enough for B.");
-		if (hotEnoughForB) {
-			console.log("Hot and dry. Is B.");
-			// at this point its def B
-			if ((parseFloat(totalPrecip) / 2) <= littlePrecipThreshold) {
-				// BW
-				console.log("Very dry. Is BW. (" + totalPrecip + " / 2 <= " + littlePrecipThreshold + ")");
-				if (parseFloat(avgtemp) > 18) {
-					console.log("Avg temp above 18 Celcius. Is BWh. (" + avgtemp + "C)");
-					koppenCode = "BWh";
-				} else {
-					console.log("Avg temp below 18 Celcius. Is BWk. (" + avgtemp + "C)");
-					koppenCode = "BWk";
+		var canBeAf = true;
+		var tropicalPrecipitationMin = parseFloat(100 - (totalPrecip / 25));
+		if (hot) {
+			console.log("Hot enough to be tropical.");
+			for (let i = 0; i < mmOfPrecipitation.length; i++) {
+				if (parseFloat(mmOfPrecipitation[i]) < 60) {
+					canBeAf = false;
+					console.log("Too dry for Af, not neccessarially for A.");
+					break;
 				}
-			} else {
-				// BS
-				console.log("Dry, but not very dry. Is BS.");
-				if (avgtemp > 18) {
-					console.log("Avg temp above 18 Celcius. Is BSh.");
-					koppenCode = "BSh";
-				} else {
-					console.log("Avg temp below 18 Celcius. Is BSk.");
-					koppenCode = "BSk";
+				if (parseFloat(mmOfPrecipitation[i]) < tropicalPrecipitationMin) {
+					canBeTropical = false;
+					console.log("Cannot be tropical, too dry.");
+					break;
 				}
 			}
-		}
-	}
-	
-	if (koppenCode == "") {	
-		// Group C: Temperate climates
-		// Also includes Group D: Continental climates
-		
-		var coldestMonth = 999;
-		for (let i = 0; i < temps.length; i++) {
-			if (parseFloat(temps[i]) < coldestMonth) {
-				coldestMonth = parseFloat(temps[i]);
-			}
-		}
-		
-		var hottestMonth = -999;
-		for (let i = 0; i < temps.length; i++) {
-			if (parseFloat(temps[i]) > hottestMonth) {
-				hottestMonth = temps[i];
-			}
-		}
-		
-		var driestMonth = 999;
-		for (let i = 0; i < mmOfPrecipitation.length; i++) {
-			if (parseFloat(mmOfPrecipitation[i]) < driestMonth) {
-				driestMonth = parseFloat(mmOfPrecipitation[i]);
-			}
-		}
-		
-		var wettestMonth = -999;
-		for (let i = 0; i < mmOfPrecipitation.length; i++) {
-			if (parseFloat(mmOfPrecipitation[i]) > wettestMonth) {
-				wettestMonth = parseFloat(mmOfPrecipitation[i]);
-			}
-		}
-		
-		var monthsAbove10 = 0;
-		for (let i = 0; i < temps.length; i++) {
-			if (parseFloat(temps[i]) > 10) {
-				monthsAbove10 += 1;
-			}
-		}
-		
-		// using -3C as cutoff, some use 0C
-		
-		// used for w/s/f distinction
-		var wettestSummer = -1;
-		var driestSummer = 9999;
-		var wettestWinter = -1;
-		var driestWinter = 9999;
-		
-		winterAvgPrec = [];
-		summerAvgPrec = [];
-		
-		if (parseFloat(document.getElementById('lat').value) < 0) {
-			console.log("South of equator");
-			summerAvgPrec.push(mmOfPrecipitation[9], mmOfPrecipitation[10], mmOfPrecipitation[11], mmOfPrecipitation[0], mmOfPrecipitation[1], mmOfPrecipitation[2]);
-			winterAvgPrec.push(mmOfPrecipitation[3], mmOfPrecipitation[4], mmOfPrecipitation[5], mmOfPrecipitation[6], mmOfPrecipitation[7], mmOfPrecipitation[8]);
 		} else {
-			console.log("North of equator");
-			winterAvgPrec.push(mmOfPrecipitation[9], mmOfPrecipitation[10], mmOfPrecipitation[11], mmOfPrecipitation[0], mmOfPrecipitation[1], mmOfPrecipitation[2]);
-			summerAvgPrec.push(mmOfPrecipitation[3], mmOfPrecipitation[4], mmOfPrecipitation[5], mmOfPrecipitation[6], mmOfPrecipitation[7], mmOfPrecipitation[8]);
+			console.log("Cannot be tropical, too cold.");
 		}
 		
-		for (let i = 0; i < summerAvgPrec.length; i++) {
-			if (summerAvgPrec[i] > wettestSummer) {
-				wettestSummer = summerAvgPrec[i];
-			}
-			if (winterAvgPrec[i] > wettestWinter) {
-				wettestWinter = winterAvgPrec[i];
-			}
-			if (summerAvgPrec[i] < driestSummer) {
-				driestSummer = summerAvgPrec[i];
-			}
-			if (winterAvgPrec[i] < driestWinter) {
-				driestWinter = winterAvgPrec[i];
+		// Definetely tropical at this point, check if Af, Am, As, or Aw
+		if (canBeTropical) {
+			console.log("Wet enough to be tropical. Köppen climate is in group A...");
+			var driestMonth = -1;
+			var driestPrecipAmount = 999999;
+			for (let i = 0; i < mmOfPrecipitation.length; i++) {
+				if (parseFloat(mmOfPrecipitation[i]) < driestPrecipAmount) {
+					driestMonth = i;
+					driestPrecipAmount = parseFloat(mmOfPrecipitation[i]);
+				}
 			}
 			
+			if (canBeAf) {
+				koppenCode = "Af";
+				console.log("If it can be Af, it must be Af.");
+			} else if (parseFloat(document.getElementById('lat').value) < 0) {   // determines if north or south of the equator
+				// south of equator
+				console.log("South of equator.");
+				if (driestMonth == 5) {
+					// not the best way to determine monsoon climates, but the dries month is right after the winter solstice...
+					console.log("Driest month is one with winter solstice. (" + driestMonth + ") Is Am.");
+					koppenCode = "Am";
+				}
+				else if (4 < driestMonth & driestMonth <= 9) {
+					// including a bit of spring and fall here just in case
+					console.log("Driest month is one in winter. (" + (driestMonth + 1) + ") Is Aw.");
+					koppenCode = "Aw";
+				} else {
+					console.log("Driest month is one in summer. (" + (driestMonth + 1) + ") Is As.");
+					koppenCode = "As";
+				}
+			} else {
+				// north of equator
+				console.log("North of equator.");
+				if (driestMonth == 11) {
+					// not the best way to determine monsoon climates, but the dries month is right after the winter solstice...
+					console.log("Driest month is one with winter solstice. (" + (driestMonth + 1) + ") Is Am.");
+					koppenCode = "Am";
+				}
+				else if (4 < driestMonth & driestMonth <= 9) {
+					// including a bit of spring and fall here just in case
+					console.log("Driest month is one in summer. (" + (driestMonth + 1) + ") Is As.");
+					koppenCode = "As";
+				} else {
+					console.log("Driest month is one in winter. (" + (driestMonth + 1) + ") Is Aw.");
+					koppenCode = "Aw";
+				}
+			}
 		}
 		
-		if (coldestMonth >= -3) {
-			console.log("Temps barely (if at all) averages below freezing. Köppen climate is in group C...");
-			if (hottestMonth > 22 & monthsAbove10 >= 4) {
-				console.log("Hottest month averages above 22C. Ending letter must be a. (" + hottestMonth + "C)");
-				if (parseFloat(wettestSummer / 10) > driestWinter & driestMonth < 40) {
-					console.log("Wettest summer month (" + wettestSummer + ") is over 10x as wet as the driest winter month (" + driestWinter + "). Cwa.");
-					koppenCode = "Cwa";
-				} else if (parseFloat(wettestWinter / 3) > driestSummer & driestMonth < 40) {
-					console.log("Wettest winter month (" + wettestWinter + ") is over 3x as wet as the driest summer month (" + driestSummer + "). Csa.");
-					koppenCode = "Csa";
-				} else {
-					console.log("No significant precipitation change by season. Cfa.");
-					koppenCode = "Cfa";
-				}
-			} else {
-				console.log("Hottest month averages below 22C. Ending letter must be b or c. (" + hottestMonth + "C)");
-				if (monthsAbove10 >= 4) {
-					console.log("4 or more months averaging above 10c. (" + monthsAbove10 + ") Ending letter must be b.");
-					if (parseFloat(wettestSummer / 10) > driestWinter & driestMonth < 40) {
-						console.log("Wettest summer month (" + wettestSummer + ") is over 10x as wet as the driest winter month (" + driestWinter + "). Cwb.");
-						koppenCode = "Cwb";
-					} else if (parseFloat(wettestWinter / 3) > driestSummer & driestMonth < 40) {
-						console.log("Wettest winter month (" + wettestWinter + ") is over 3x as wet as the driest summer month (" + driestSummer + "). Csb.");
-						koppenCode = "Csb";
-					} else {
-						console.log("No significant precipitation change by season. Cfb.");
-						koppenCode = "Cfb";
-					}
-				} else {
-					console.log("3 or less months averaging above 10c. (" + monthsAbove10 + ") Ending letter must be c.");
-					if (parseFloat(wettestSummer / 10) > driestWinter & driestMonth < 40) {
-						console.log("Wettest summer month (" + wettestSummer + ") is over 10x as wet as the driest winter month (" + driestWinter + "). Cwc.");
-						koppenCode = "Cwc";
-					} else if (parseFloat(wettestWinter / 3) > driestSummer & driestMonth < 40) {
-						console.log("Wettest winter month (" + wettestWinter + ") is over 3x as wet as the driest summer month (" + driestSummer + "). Csc.");
-						koppenCode = "Csc";
-					} else {
-						console.log("No significant precipitation change by season. Cfc.");
-						koppenCode = "Cfc";
-					}
-				}
-			}
-		} else if (hottestMonth >= 10) {
-			console.log("At least one monthly temp averages below freezing, and the hottest month gets above 10C. Köppen climate is in group D...");
-			if (hottestMonth >= 22) {
-				console.log("Hottest month averages above 22C. Ending letter must be a. (" + hottestMonth + "C)");
-				if (parseFloat(wettestSummer / 10) > driestWinter & driestMonth < 40) {
-						console.log("Wettest summer month (" + wettestSummer + ") is over 10x as wet as the driest winter month (" + driestWinter + "). Dwa.");
-						koppenCode = "Dwa";
-					} else if (parseFloat(wettestWinter / 3) > driestSummer & driestMonth < 40) {
-						console.log("Wettest winter month (" + wettestWinter + ") is over 3x as wet as the driest summer month (" + driestSummer + "). Dsa.");
-						koppenCode = "Dsa";
-					} else {
-						console.log("No significant precipitation change by season. Dfa.");
-						koppenCode = "Dfa";
-					}
-			} else {
-				console.log("Hottest month averages below 22C. Ending letter must be b, c, or d. (" + hottestMonth + "C)");
-				if (monthsAbove10 >= 4) {
-					console.log("4 or more months (" + monthsAbove10 + ") above 10C. Ending letter must be b.");
-					if (parseFloat(wettestSummer / 10) > driestWinter & driestMonth < 40) {
-						console.log("Wettest summer month (" + wettestSummer + ") is over 10x as wet as the driest winter month (" + driestWinter + "). Dwb.");
-						koppenCode = "Dwb";
-					} else if (parseFloat(wettestWinter / 3) > driestSummer & driestMonth < 40) {
-						console.log("Wettest winter month (" + wettestWinter + ") is over 3x as wet as the driest summer month (" + driestSummer + "). Dsb.");
-						koppenCode = "Dsb";
-					} else {
-						console.log("No significant precipitation change by season. Dfb.");
-						koppenCode = "Dfb";
-					}
-				} else if (coldestMonth < -38) {
-					console.log("Coldest month gets below -38C. Ending letter must be d.");
-					if (parseFloat(wettestSummer / 10) > driestWinter & driestMonth < 40) {
-						console.log("Wettest summer month (" + wettestSummer + ") is over 10x as wet as the driest winter month (" + driestWinter + "). Dwd.");
-						koppenCode = "Dwd";
-					} else if (parseFloat(wettestWinter / 3) > driestSummer & driestMonth < 40) {
-						console.log("Wettest winter month (" + wettestWinter + ") is over 3x as wet as the driest summer month (" + driestSummer + "). Dsd.");
-						koppenCode = "Dsd";
-					} else {
-						console.log("No significant precipitation change by season. Dfd.");
-						koppenCode = "Dfd";
-					}
-				} else {
-					console.log("1-3 months (" + monthsAbove10 + ") above 10C, with all above -38C. Ending letter must be c.");
-					if (parseFloat(wettestSummer / 10) > driestWinter & driestMonth < 40) {
-						console.log("Wettest summer month (" + wettestSummer + ") is over 10x as wet as the driest winter month (" + driestWinter + "). Dwc.");
-						koppenCode = "Dwc";
-					} else if (parseFloat(wettestWinter / 3) > driestSummer & driestMonth < 40) {
-						console.log("Wettest winter month (" + wettestWinter + ") is over 3x as wet as the driest summer month (" + driestSummer + "). Dsc.");
-						koppenCode = "Dsc";
-					} else {
-						console.log("No significant precipitation change by season. Dfc.");
-						koppenCode = "Dfc";
-					}
-				}
+		// Group B: arid climates
+		
+		littlePrecipThreshold = parseFloat(avgtemp) * 20; // defined here, also used for group E
+		// equator specific threshold
+		if (parseFloat(document.getElementById('lat').value) < 0) {
+			springSummerPrecip = parseFloat(mmOfPrecipitation[9] + mmOfPrecipitation[10] + mmOfPrecipitation[11] + mmOfPrecipitation[0] + mmOfPrecipitation[1] + mmOfPrecipitation[2]);
+			var percentSpringSummerPrecip = (springSummerPrecip / totalPrecip) * 100;
+			if (percentSpringSummerPrecip >= 70) {
+				littlePrecipThreshold += 280;
+			} else if (percentSpringSummerPrecip >= 30) {
+				littlePrecipThreshold += 140;
 			}
 		} else {
-			console.log("Hottest month is below 10C. (" + hottestMonth + "C) Köppen climate is in group E...");
-			if (hottestMonth > 0) {
-				console.log("Hottest month is above freezing. (" + hottestMonth + "C) Is ET.");
-				koppenCode = "ET";
-			} else {
-				console.log("Hottest month is below freezing. (" + hottestMonth + "C) Is EF.");
-				koppenCode = "EF";
+			springSummerPrecip = parseFloat(mmOfPrecipitation[3] + mmOfPrecipitation[4] + mmOfPrecipitation[5] + mmOfPrecipitation[6] + mmOfPrecipitation[7] + mmOfPrecipitation[8]);
+			var percentSpringSummerPrecip = (springSummerPrecip / totalPrecip) * 100;
+			if (percentSpringSummerPrecip >= 70) {
+				littlePrecipThreshold += 280;
+			} else if (percentSpringSummerPrecip >= 30) {
+				littlePrecipThreshold += 140;
 			}
 		}
+		
+		hotEnoughForB = false;
+		for (let i = 0; i < temps.length; i++) {
+			if (parseFloat(temps[i]) > 10) {
+				hotEnoughForB = true;
+			}
+		}
+		
+		if (parseFloat(totalPrecip) <= parseFloat(littlePrecipThreshold)) {
+			console.log("Dry enough for B.");
+			if (hotEnoughForB) {
+				console.log("Hot and dry. Is B.");
+				// at this point its def B
+				if ((parseFloat(totalPrecip) / 2) <= littlePrecipThreshold) {
+					// BW
+					console.log("Very dry. Is BW. (" + totalPrecip + " / 2 <= " + littlePrecipThreshold + ")");
+					if (parseFloat(avgtemp) > 18) {
+						console.log("Avg temp above 18 Celcius. Is BWh. (" + avgtemp + "C)");
+						koppenCode = "BWh";
+					} else {
+						console.log("Avg temp below 18 Celcius. Is BWk. (" + avgtemp + "C)");
+						koppenCode = "BWk";
+					}
+				} else {
+					// BS
+					console.log("Dry, but not very dry. Is BS.");
+					if (avgtemp > 18) {
+						console.log("Avg temp above 18 Celcius. Is BSh.");
+						koppenCode = "BSh";
+					} else {
+						console.log("Avg temp below 18 Celcius. Is BSk.");
+						koppenCode = "BSk";
+					}
+				}
+			}
+		}
+		
+		if (koppenCode == "") {	
+			// Group C: Temperate climates
+			// Also includes Group D: Continental climates
+			
+			var coldestMonth = 999;
+			for (let i = 0; i < temps.length; i++) {
+				if (parseFloat(temps[i]) < coldestMonth) {
+					coldestMonth = parseFloat(temps[i]);
+				}
+			}
+			
+			var hottestMonth = -999;
+			for (let i = 0; i < temps.length; i++) {
+				if (parseFloat(temps[i]) > hottestMonth) {
+					hottestMonth = temps[i];
+				}
+			}
+			
+			var driestMonth = 999;
+			for (let i = 0; i < mmOfPrecipitation.length; i++) {
+				if (parseFloat(mmOfPrecipitation[i]) < driestMonth) {
+					driestMonth = parseFloat(mmOfPrecipitation[i]);
+				}
+			}
+			
+			var wettestMonth = -999;
+			for (let i = 0; i < mmOfPrecipitation.length; i++) {
+				if (parseFloat(mmOfPrecipitation[i]) > wettestMonth) {
+					wettestMonth = parseFloat(mmOfPrecipitation[i]);
+				}
+			}
+			
+			var monthsAbove10 = 0;
+			for (let i = 0; i < temps.length; i++) {
+				if (parseFloat(temps[i]) > 10) {
+					monthsAbove10 += 1;
+				}
+			}
+			
+			// using -3C as cutoff, some use 0C
+			
+			// used for w/s/f distinction
+			var wettestSummer = -1;
+			var driestSummer = 9999;
+			var wettestWinter = -1;
+			var driestWinter = 9999;
+			
+			winterAvgPrec = [];
+			summerAvgPrec = [];
+			
+			if (parseFloat(document.getElementById('lat').value) < 0) {
+				console.log("South of equator");
+				summerAvgPrec.push(mmOfPrecipitation[9], mmOfPrecipitation[10], mmOfPrecipitation[11], mmOfPrecipitation[0], mmOfPrecipitation[1], mmOfPrecipitation[2]);
+				winterAvgPrec.push(mmOfPrecipitation[3], mmOfPrecipitation[4], mmOfPrecipitation[5], mmOfPrecipitation[6], mmOfPrecipitation[7], mmOfPrecipitation[8]);
+			} else {
+				console.log("North of equator");
+				winterAvgPrec.push(mmOfPrecipitation[9], mmOfPrecipitation[10], mmOfPrecipitation[11], mmOfPrecipitation[0], mmOfPrecipitation[1], mmOfPrecipitation[2]);
+				summerAvgPrec.push(mmOfPrecipitation[3], mmOfPrecipitation[4], mmOfPrecipitation[5], mmOfPrecipitation[6], mmOfPrecipitation[7], mmOfPrecipitation[8]);
+			}
+			
+			for (let i = 0; i < summerAvgPrec.length; i++) {
+				if (summerAvgPrec[i] > wettestSummer) {
+					wettestSummer = summerAvgPrec[i];
+				}
+				if (winterAvgPrec[i] > wettestWinter) {
+					wettestWinter = winterAvgPrec[i];
+				}
+				if (summerAvgPrec[i] < driestSummer) {
+					driestSummer = summerAvgPrec[i];
+				}
+				if (winterAvgPrec[i] < driestWinter) {
+					driestWinter = winterAvgPrec[i];
+				}
+				
+			}
+			
+			if (coldestMonth >= -3) {
+				console.log("Temps barely (if at all) averages below freezing. Köppen climate is in group C...");
+				if (hottestMonth > 22 & monthsAbove10 >= 4) {
+					console.log("Hottest month averages above 22C. Ending letter must be a. (" + hottestMonth + "C)");
+					if (parseFloat(wettestSummer / 10) > driestWinter & driestMonth < 40) {
+						console.log("Wettest summer month (" + wettestSummer + ") is over 10x as wet as the driest winter month (" + driestWinter + "). Cwa.");
+						koppenCode = "Cwa";
+					} else if (parseFloat(wettestWinter / 3) > driestSummer & driestMonth < 40) {
+						console.log("Wettest winter month (" + wettestWinter + ") is over 3x as wet as the driest summer month (" + driestSummer + "). Csa.");
+						koppenCode = "Csa";
+					} else {
+						console.log("No significant precipitation change by season. Cfa.");
+						koppenCode = "Cfa";
+					}
+				} else {
+					console.log("Hottest month averages below 22C. Ending letter must be b or c. (" + hottestMonth + "C)");
+					if (monthsAbove10 >= 4) {
+						console.log("4 or more months averaging above 10c. (" + monthsAbove10 + ") Ending letter must be b.");
+						if (parseFloat(wettestSummer / 10) > driestWinter & driestMonth < 40) {
+							console.log("Wettest summer month (" + wettestSummer + ") is over 10x as wet as the driest winter month (" + driestWinter + "). Cwb.");
+							koppenCode = "Cwb";
+						} else if (parseFloat(wettestWinter / 3) > driestSummer & driestMonth < 40) {
+							console.log("Wettest winter month (" + wettestWinter + ") is over 3x as wet as the driest summer month (" + driestSummer + "). Csb.");
+							koppenCode = "Csb";
+						} else {
+							console.log("No significant precipitation change by season. Cfb.");
+							koppenCode = "Cfb";
+						}
+					} else {
+						console.log("3 or less months averaging above 10c. (" + monthsAbove10 + ") Ending letter must be c.");
+						if (parseFloat(wettestSummer / 10) > driestWinter & driestMonth < 40) {
+							console.log("Wettest summer month (" + wettestSummer + ") is over 10x as wet as the driest winter month (" + driestWinter + "). Cwc.");
+							koppenCode = "Cwc";
+						} else if (parseFloat(wettestWinter / 3) > driestSummer & driestMonth < 40) {
+							console.log("Wettest winter month (" + wettestWinter + ") is over 3x as wet as the driest summer month (" + driestSummer + "). Csc.");
+							koppenCode = "Csc";
+						} else {
+							console.log("No significant precipitation change by season. Cfc.");
+							koppenCode = "Cfc";
+						}
+					}
+				}
+			} else if (hottestMonth >= 10) {
+				console.log("At least one monthly temp averages below freezing, and the hottest month gets above 10C. Köppen climate is in group D...");
+				if (hottestMonth >= 22) {
+					console.log("Hottest month averages above 22C. Ending letter must be a. (" + hottestMonth + "C)");
+					if (parseFloat(wettestSummer / 10) > driestWinter & driestMonth < 40) {
+							console.log("Wettest summer month (" + wettestSummer + ") is over 10x as wet as the driest winter month (" + driestWinter + "). Dwa.");
+							koppenCode = "Dwa";
+						} else if (parseFloat(wettestWinter / 3) > driestSummer & driestMonth < 40) {
+							console.log("Wettest winter month (" + wettestWinter + ") is over 3x as wet as the driest summer month (" + driestSummer + "). Dsa.");
+							koppenCode = "Dsa";
+						} else {
+							console.log("No significant precipitation change by season. Dfa.");
+							koppenCode = "Dfa";
+						}
+				} else {
+					console.log("Hottest month averages below 22C. Ending letter must be b, c, or d. (" + hottestMonth + "C)");
+					if (monthsAbove10 >= 4) {
+						console.log("4 or more months (" + monthsAbove10 + ") above 10C. Ending letter must be b.");
+						if (parseFloat(wettestSummer / 10) > driestWinter & driestMonth < 40) {
+							console.log("Wettest summer month (" + wettestSummer + ") is over 10x as wet as the driest winter month (" + driestWinter + "). Dwb.");
+							koppenCode = "Dwb";
+						} else if (parseFloat(wettestWinter / 3) > driestSummer & driestMonth < 40) {
+							console.log("Wettest winter month (" + wettestWinter + ") is over 3x as wet as the driest summer month (" + driestSummer + "). Dsb.");
+							koppenCode = "Dsb";
+						} else {
+							console.log("No significant precipitation change by season. Dfb.");
+							koppenCode = "Dfb";
+						}
+					} else if (coldestMonth < -38) {
+						console.log("Coldest month gets below -38C. Ending letter must be d.");
+						if (parseFloat(wettestSummer / 10) > driestWinter & driestMonth < 40) {
+							console.log("Wettest summer month (" + wettestSummer + ") is over 10x as wet as the driest winter month (" + driestWinter + "). Dwd.");
+							koppenCode = "Dwd";
+						} else if (parseFloat(wettestWinter / 3) > driestSummer & driestMonth < 40) {
+							console.log("Wettest winter month (" + wettestWinter + ") is over 3x as wet as the driest summer month (" + driestSummer + "). Dsd.");
+							koppenCode = "Dsd";
+						} else {
+							console.log("No significant precipitation change by season. Dfd.");
+							koppenCode = "Dfd";
+						}
+					} else {
+						console.log("1-3 months (" + monthsAbove10 + ") above 10C, with all above -38C. Ending letter must be c.");
+						if (parseFloat(wettestSummer / 10) > driestWinter & driestMonth < 40) {
+							console.log("Wettest summer month (" + wettestSummer + ") is over 10x as wet as the driest winter month (" + driestWinter + "). Dwc.");
+							koppenCode = "Dwc";
+						} else if (parseFloat(wettestWinter / 3) > driestSummer & driestMonth < 40) {
+							console.log("Wettest winter month (" + wettestWinter + ") is over 3x as wet as the driest summer month (" + driestSummer + "). Dsc.");
+							koppenCode = "Dsc";
+						} else {
+							console.log("No significant precipitation change by season. Dfc.");
+							koppenCode = "Dfc";
+						}
+					}
+				}
+			} else {
+				console.log("Hottest month is below 10C. (" + hottestMonth + "C) Köppen climate is in group E...");
+				if (hottestMonth > 0) {
+					console.log("Hottest month is above freezing. (" + hottestMonth + "C) Is ET.");
+					koppenCode = "ET";
+				} else {
+					console.log("Hottest month is below freezing. (" + hottestMonth + "C) Is EF.");
+					koppenCode = "EF";
+				}
+			}
+		}
+		
+		if (koppenCode == "") {
+			alert("It appears that something is broken with the Köppen Calculator at this location!");
+		}
+	} else {
+		koppenCode = "Too far from a station to reliably tell.";
 	}
-	
-	if (koppenCode == "") {
-		alert("It appears that something is broken with the Köppen Calculator at this location!");
-	}
-	
-	
-	
-	var distKM = distance * 111.1;
 	
 	climateColor(koppenCode);
 	document.getElementById('stationLocation').innerHTML = ("Closest station is " + allTextLines[closestStation].split(',')[0] + " at a distance of " + distKM + "km (Coords: " + allTextLines[closestStation].split(',')[2] + ", " + allTextLines[closestStation].split(',')[1] + ")");
@@ -534,6 +535,10 @@ function climateColor(koppenCode) {
 		case "EF":
 			document.getElementById('body').style.backgroundColor="#686868";
 			document.getElementById('body').style.color="white";
+			break;
+		default:
+			document.getElementById('body').style.backgroundColor="#cccccc";
+			document.getElementById('body').style.color="black";
 			break;
 	}
 }
