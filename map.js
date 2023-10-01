@@ -182,7 +182,7 @@ function calcKoppen() {
 		// equator specific threshold
 		if (parseFloat(document.getElementById('lat').value) < 0) {
 			springSummerPrecip = parseFloat(mmOfPrecipitation[9] + mmOfPrecipitation[10] + mmOfPrecipitation[11] + mmOfPrecipitation[0] + mmOfPrecipitation[1] + mmOfPrecipitation[2]);
-			var percentSpringSummerPrecip = (springSummerPrecip / totalPrecip) * 100;
+			var percentSpringSummerPrecip = parseFloat(parseFloat(springSummerPrecip) / parseFloat(totalPrecip)) * 100;
 			if (percentSpringSummerPrecip >= 70) {
 				littlePrecipThreshold += 280;
 			} else if (percentSpringSummerPrecip >= 30) {
@@ -210,7 +210,7 @@ function calcKoppen() {
 			if (hotEnoughForB) {
 				console.log("Hot and dry. Is B.");
 				// at this point its def B
-				if ((parseFloat(totalPrecip) / 2) <= littlePrecipThreshold) {
+				if ((parseFloat(totalPrecip)) <= (littlePrecipThreshold / 2)) {
 					// BW
 					console.log("Very dry. Is BW. (" + totalPrecip + " / 2 <= " + littlePrecipThreshold + ")");
 					if (parseFloat(avgtemp) > 18) {
