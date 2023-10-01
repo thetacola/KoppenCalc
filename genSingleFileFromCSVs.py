@@ -38,7 +38,7 @@ for (dir_path, dir_names, file_names) in os.walk(csvDataDir):
                         station[1] = row['LATITUDE'].strip("'").strip()
                         station[2] = row['LONGITUDE'].strip("'").strip()
                         station[4 + tempAdd] = (float(row['MLY-TAVG-NORMAL'].strip("'").strip()) - 32)  * (5/9)
-                        station[17 + precipAdd] = row['MLY-PRCP-NORMAL'].strip("'").strip()
+                        station[17 + precipAdd] = (float(row['MLY-PRCP-NORMAL'].strip("'").strip()) * 2.54)
                     except:
                         continue
                     tempAdd += 1
@@ -50,7 +50,7 @@ for (dir_path, dir_names, file_names) in os.walk(csvDataDir):
             allPrecips = 0
             for i in range(12):
                 if (station[17 + i] != None):
-                    allPrecips += float(station[17 + i].strip())
+                    allPrecips += float(station[17 + i])
             station[3] = allTemps / 12
             station[16] = allPrecips
             stationData.append(station)
