@@ -5,6 +5,10 @@ map.addLayer(markers);
 var filedata = "";
 var allTextLines;
 var request = new XMLHttpRequest();
+
+var centerMarkerLayer = new OpenLayers.Layer.Markers("Center Marker");
+map.addLayer(centerMarkerLayer);
+
 request.open('GET', 'https://koppencalc.oijon.net/extracted-data.csv')
 request.send(null)
 request.onreadystatechange = function () {
@@ -31,6 +35,23 @@ map.events.register("move", map, function() {
 	updateLonLat();
 	calcKoppen();
 });
+
+function moveCenterMarker(lng, lat) {
+	map.removeLayer(map.getLayersByName("Center Marker")[0]);
+	var centerMarkerLayer = new OpenLayers.Layer.Markers("Center Marker");
+	map.addLayer(centerMarkerLayer);
+	var lonLat = new OpenLayers.LonLat(lng, lat).transform(
+	new OpenLayers.Projection("EPSG:4326"), // transform from WGS 1984
+	map.getProjectionObject());
+	var marker = new OpenLayers.Marker(lonLat);
+	var size = new OpenLayers.Size(10,10);
+	var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
+	var icon = new OpenLayers.Icon('img/crosshair.png', size, offset);
+
+	centerMarkerLayer.addMarker(new OpenLayers.Marker(lonLat, icon));
+	
+	
+}
 
 function calcKoppen() {
 		
@@ -553,4 +574,5 @@ function updateLonLat() {
 		
 		document.getElementById('long').value = splitLon[1];
 		document.getElementById('lat').value = splitLat[1];
+		moveCenterMarker(splitLon[1], splitLat[1]);
 }
