@@ -188,4 +188,6 @@ writefile.close()
                             
 
 print(f"Found {stationsFound} stations!")
+
+os.system('python3 genSingleFileFromCSVs.py')
                 
