@@ -17,13 +17,7 @@ request.onreadystatechange = function () {
         if (type.indexOf("text") !== 1) {
             var filedata = request.responseText;
             allTextLines = filedata.split(/\r?\n|\r|\n/g);
-            for (let i = 0; i < allTextLines.length; i++) {
-                var entries = allTextLines[i].split(',');
-                var lonLat = new OpenLayers.LonLat(entries[2], entries[1]).transform(
-                new OpenLayers.Projection("EPSG:4326"), // transform from WGS 1984
-                map.getProjectionObject());
-                markers.addMarker(new OpenLayers.Marker(lonLat));
-            }
+            
         }
     }
 }
