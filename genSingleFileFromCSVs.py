@@ -37,7 +37,7 @@ for (dir_path, dir_names, file_names) in os.walk(csvDataDir):
                         station[0] = station[0].replace(',', '-')
                         station[1] = row['LATITUDE'].strip("'").strip()
                         station[2] = row['LONGITUDE'].strip("'").strip()
-                        station[4 + tempAdd] = (float(row['MLY-TAVG-NORMAL'].strip("'").strip()) - 1)  * (5/9)
+                        station[4 + tempAdd] = (float(row['MLY-TAVG-NORMAL'].strip("'").strip()) - 32)  * (5/9)
                         station[17 + precipAdd] = row['MLY-PRCP-NORMAL'].strip("'").strip()
                     except:
                         continue
