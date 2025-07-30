@@ -552,7 +552,7 @@ function climateColor(koppenCode) {
 			document.getElementById('colorbox').style.color="white";
 			break;
 		default:
-			document.getElementById('colorbox').style.backgroundColor="#rgba(204, 204, 204, 0.4)";
+			document.getElementById('colorbox').style.backgroundColor="rgba(204, 204, 204, 0.4)";
 			document.getElementById('colorbox').style.color="white";
 			break;
 	}
