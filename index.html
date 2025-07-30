@@ -3,35 +3,38 @@
   <head>
     <meta charset="utf-8">
     <title>Köppen Calculator</title>
+    <link rel="stylesheet" href="https://oijon.net/css/styles.css">
   </head>
   <body id="body" style="background-color:white;transition: all 1s ease;">
-    <header>
-    <h1>Köppen Calculator v0.0.1</h1></header>
-    <main>
-      
-      <div id="demoMap" style="height:350px; width:100%; background-color:#cccccc;"></div>
-      <script src="openlayers/OpenLayers.js"></script>
-      <script src="map.js"></script>
-      <h3 id="code"></h3>
-      <p id="stationLocation"></p>
-      
-      <div id="selectors" style="display:flex;">
-          <form>
-              <label for="lat">Latitude:</label>
-              <input type="text" id="lat" name="lat">
-              <label for="long">Longitude:</label>
-              <input type="text" id="long" name="long">
-          </form>
-          <button onclick="calcKoppen()">Calculate!</button>
+    <div id="article">
+      <div class="textbox">
+        <header>
+          <h1>Köppen Calculator v0.0.2</h1>
+        </header>
+        <div id="demoMap" style="height:350px; width:100%; background-color:#cccccc;"></div>
+        <script src="openlayers/OpenLayers.js"></script>
+        <script src="map.js"></script>
+        <h3 id="code"></h3>
+        <p id="stationLocation"></p>
+        
+        <div id="selectors" style="display:flex;">
+            <form>
+                <label for="lat">Latitude:</label>
+                <input type="text" id="lat" name="lat">
+                <label for="long">Longitude:</label>
+                <input type="text" id="long" name="long">
+            </form>
+            <button onclick="calcKoppen()">Calculate!</button>
+        </div>
       </div>
-    </main>
-    <footer>
-      <p>Known bugs:</p>
-      <ul>
-        <li>There are very few stations with adequate data in Africa, the Czech Republic, and Italy. The stations closest to the Czech Republic is
-        in the mountains, and as such the climate will show as much colder than reality.</li>
-      </ul>
-      <p>Data sourced from <a href="ftp://ftp.atdd.noaa.gov">ftp.atdd.noaa.gov</a></p>
-    </footer>
+      <div class="textbox">
+        <p>Known bugs:</p>
+        <ul>
+          <li>There are very few stations with adequate data in Africa, the Czech Republic, and Italy. The stations closest to the Czech Republic is
+          in the mountains, and as such the climate will show as much colder than reality.</li>
+        </ul>
+        <p>Data sourced from <a href="ftp://ftp.atdd.noaa.gov">ftp.atdd.noaa.gov</a></p>
+      </div>
+    </div>
   </body>
 </html>
