@@ -428,132 +428,132 @@ function calcKoppen() {
 function climateColor(koppenCode) {
 	switch(koppenCode) {
 		case "Af":
-			document.getElementById('body').style.backgroundColor="#0000FE";
-			document.getElementById('body').style.color="white";
+			document.getElementById('colorbox').style.backgroundColor="rgba(0, 0, 254, 0.4)";
+			document.getElementById('colorbox').style.color="white";
 			break;
 		case "Am":
-			document.getElementById('body').style.backgroundColor="#0077FF";
-			document.getElementById('body').style.color="white";
+			document.getElementById('colorbox').style.backgroundColor="rgba(0, 119, 255, 0.4)";
+			document.getElementById('colorbox').style.color="white";
 			break;
 		case "Aw":
-			document.getElementById('body').style.backgroundColor="#46A9Fa";
-			document.getElementById('body').style.color="white";
+			document.getElementById('colorbox').style.backgroundColor="rgba(70, 169, 250, 0.4)";
+			document.getElementById('colorbox').style.color="white";
 			break;
 		case "As":
-			document.getElementById('body').style.backgroundColor="#46A9Fa";
-			document.getElementById('body').style.color="white";
+			document.getElementById('colorbox').style.backgroundColor="rgba(70, 169, 250, 0.4)";
+			document.getElementById('colorbox').style.color="white";
 			break;
 		case "BWh":
-			document.getElementById('body').style.backgroundColor="#FE0000";
-			document.getElementById('body').style.color="white";
+			document.getElementById('colorbox').style.backgroundColor="rgba(254, 0, 0, 0.4)";
+			document.getElementById('colorbox').style.color="white";
 			break;
 		case "BWk":
-			document.getElementById('body').style.backgroundColor="#FE9695";
-			document.getElementById('body').style.color="black";
+			document.getElementById('colorbox').style.backgroundColor="rgba(254, 150, 149, 0.4)";
+			document.getElementById('colorbox').style.color="white";
 			break;
 		case "BSh":
-			document.getElementById('body').style.backgroundColor="#F5A301";
-			document.getElementById('body').style.color="white";
+			document.getElementById('colorbox').style.backgroundColor="rgba(245, 163, 1, 0.4)";
+			document.getElementById('colorbox').style.color="white";
 			break;
 		case "BSk":
-			document.getElementById('body').style.backgroundColor="#FFDB63";
-			document.getElementById('body').style.color="black";
+			document.getElementById('colorbox').style.backgroundColor="rgba(255, 219, 99, 0.4)";
+			document.getElementById('colorbox').style.color="white";
 			break;
 		case "Csa":
-			document.getElementById('body').style.backgroundColor="#FFFF00";
-			document.getElementById('body').style.color="black";
+			document.getElementById('colorbox').style.backgroundColor="rgba(255, 255, 0, 0.4)";
+			document.getElementById('colorbox').style.color="white";
 			break;
 		case "Csb":
-			document.getElementById('body').style.backgroundColor="#C6C700";
-			document.getElementById('body').style.color="black";
+			document.getElementById('colorbox').style.backgroundColor="rgba(198, 199, 0, 0.4)";
+			document.getElementById('colorbox').style.color="white";
 			break;
 		case "Csc":
-			document.getElementById('body').style.backgroundColor="#969600";
-			document.getElementById('body').style.color="white";
+			document.getElementById('colorbox').style.backgroundColor="rgba(150, 150, 0, 0.4)";
+			document.getElementById('colorbox').style.color="white";
 			break;
 		case "Cwa":
-			document.getElementById('body').style.backgroundColor="#96FF96";
-			document.getElementById('body').style.color="black";
+			document.getElementById('colorbox').style.backgroundColor="rgba(150, 255, 150, 0.4)";
+			document.getElementById('colorbox').style.color="white";
 			break;
 		case "Cwb":
-			document.getElementById('body').style.backgroundColor="#63C764";
-			document.getElementById('body').style.color="black";
+			document.getElementById('colorbox').style.backgroundColor="rgba(99, 199, 100, 0.4)";
+			document.getElementById('colorbox').style.color="white";
 			break;
 		case "Cwc":
-			document.getElementById('body').style.backgroundColor="#329633";
-			document.getElementById('body').style.color="white";
+			document.getElementById('colorbox').style.backgroundColor="rgba(50, 150, 51, 0.4)";
+			document.getElementById('colorbox').style.color="white";
 			break;
 		case "Cfa":
-			document.getElementById('body').style.backgroundColor="#C6FF4E";
-			document.getElementById('body').style.color="black";
+			document.getElementById('colorbox').style.backgroundColor="rgba(198, 255, 78, 0.4)";
+			document.getElementById('colorbox').style.color="white";
 			break;
 		case "Cfb":
-			document.getElementById('body').style.backgroundColor="#66FF33";
-			document.getElementById('body').style.color="black";
+			document.getElementById('colorbox').style.backgroundColor="rgba(102, 255, 51, 0.4)";
+			document.getElementById('colorbox').style.color="white";
 			break;
 		case "Cfc":
-			document.getElementById('body').style.backgroundColor="#33C701";
-			document.getElementById('body').style.color="white";
+			document.getElementById('colorbox').style.backgroundColor="rgba(51, 199, 1, 0.4)";
+			document.getElementById('colorbox').style.color="white";
 			break;
 		case "Dsa":
-			document.getElementById('body').style.backgroundColor="#FF00FE";
-			document.getElementById('body').style.color="black";
+			document.getElementById('colorbox').style.backgroundColor="rgba(255, 0, 254, 0.4)";
+			document.getElementById('colorbox').style.color="white";
 			break;
 		case "Dsb":
-			document.getElementById('body').style.backgroundColor="#C600C7";
-			document.getElementById('body').style.color="white";
+			document.getElementById('colorbox').style.backgroundColor="rgba(198, 0, 199, 0.4)";
+			document.getElementById('colorbox').style.color="white";
 			break;
 		case "Dsc":
-			document.getElementById('body').style.backgroundColor="#963295";
-			document.getElementById('body').style.color="white";
+			document.getElementById('colorbox').style.backgroundColor="rgba(150, 50, 149, 0.4)";
+			document.getElementById('colorbox').style.color="white";
 			break;
 		case "Dsd":
-			document.getElementById('body').style.backgroundColor="#966495";
-			document.getElementById('body').style.color="white";
+			document.getElementById('colorbox').style.backgroundColor="rgba(150, 100, 149, 0.4)";
+			document.getElementById('colorbox').style.color="white";
 			break;
 		case "Dwa":
-			document.getElementById('body').style.backgroundColor="#ABB1FF";
-			document.getElementById('body').style.color="black";
+			document.getElementById('colorbox').style.backgroundColor="rgba(171, 177, 255, 0.4)";
+			document.getElementById('colorbox').style.color="white";
 			break;
 		case "Dwb":
-			document.getElementById('body').style.backgroundColor="#5A77DB";
-			document.getElementById('body').style.color="white";
+			document.getElementById('colorbox').style.backgroundColor="rgba(90, 119, 219, 0.4)";
+			document.getElementById('colorbox').style.color="white";
 			break;
 		case "Dwc":
-			document.getElementById('body').style.backgroundColor="#4C51B5";
-			document.getElementById('body').style.color="white";
+			document.getElementById('colorbox').style.backgroundColor="rgba(76, 81, 181, 0.4)";
+			document.getElementById('colorbox').style.color="white";
 			break;
 		case "Dwd":
-			document.getElementById('body').style.backgroundColor="#320087";
-			document.getElementById('body').style.color="white";
+			document.getElementById('colorbox').style.backgroundColor="rgba(50, 0, 135, 0.4)";
+			document.getElementById('colorbox').style.color="white";
 			break;
 		case "Dfa":
-			document.getElementById('body').style.backgroundColor="#00FFFF";
-			document.getElementById('body').style.color="black";
+			document.getElementById('colorbox').style.backgroundColor="rgba(0, 255, 255, 0.4)";
+			document.getElementById('colorbox').style.color="white";
 			break;
 		case "Dfb":
-			document.getElementById('body').style.backgroundColor="#38C7FF";
-			document.getElementById('body').style.color="black";
+			document.getElementById('colorbox').style.backgroundColor="rgba(56, 199, 255, 0.4)";
+			document.getElementById('colorbox').style.color="white";
 			break;
 		case "Dfc":
-			document.getElementById('body').style.backgroundColor="#007E7D";
-			document.getElementById('body').style.color="white";
+			document.getElementById('colorbox').style.backgroundColor="rgba(0, 126, 125, 0.4)";
+			document.getElementById('colorbox').style.color="white";
 			break;
 		case "Dfd":
-			document.getElementById('body').style.backgroundColor="#00455E";
-			document.getElementById('body').style.color="white";
+			document.getElementById('colorbox').style.backgroundColor="rgba(0, 69, 94, 0.4)";
+			document.getElementById('colorbox').style.color="white";
 			break;
 		case "ET":
-			document.getElementById('body').style.backgroundColor="#B2B2B2";
-			document.getElementById('body').style.color="white";
+			document.getElementById('colorbox').style.backgroundColor="rgba(178, 178, 178, 0.4)";
+			document.getElementById('colorbox').style.color="white";
 			break;
 		case "EF":
-			document.getElementById('body').style.backgroundColor="#686868";
-			document.getElementById('body').style.color="white";
+			document.getElementById('colorbox').style.backgroundColor="rgba(104, 104, 104, 0.4)";
+			document.getElementById('colorbox').style.color="white";
 			break;
 		default:
-			document.getElementById('body').style.backgroundColor="#cccccc";
-			document.getElementById('body').style.color="black";
+			document.getElementById('colorbox').style.backgroundColor="#rgba(204, 204, 204, 0.4)";
+			document.getElementById('colorbox').style.color="white";
 			break;
 	}
 }
